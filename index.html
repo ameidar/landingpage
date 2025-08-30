@@ -536,7 +536,7 @@
     </footer>
 
     <script>
-        function handleSubmit(event) {
+        async function handleSubmit(event) {
             event.preventDefault();
             
             const formData = new FormData(event.target);
@@ -544,29 +544,74 @@
             const email = formData.get('email');
             const appIdea = formData.get('appIdea');
             
-            // Simulate form submission
             const button = event.target.querySelector('.cta-button');
             const originalText = button.innerHTML;
             
-            button.innerHTML = '✅ Added to Waitlist!';
-            button.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+            // Show loading state
+            button.innerHTML = '📡 Submitting...';
+            button.style.background = 'linear-gradient(135deg, #6c757d 0%, #495057 100%)';
             button.disabled = true;
             
-            // In a real implementation, you would send this data to your backend
-            console.log('Waitlist submission:', { name, email, appIdea });
+            try {
+                // Send data to Make.com webhook
+                const webhookData = {
+                    name: name,
+                    email: email,
+                    appIdea: appIdea || 'No idea provided',
+                    timestamp: new Date().toISOString(),
+                    source: 'Landing Page Waitlist',
+                    course: 'Get Your App on the App Store - Vibe Coding Course'
+                };
+                
+                const response = await fetch('https://hook.eu1.make.com/su7kaweta798mo66dhdrevp56fdsa5av', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(webhookData)
+                });
+                
+                if (response.ok) {
+                    // Success state
+                    button.innerHTML = '✅ Added to Waitlist!';
+                    button.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+                    
+                    // Show success message
+                    setTimeout(() => {
+                        alert(`Thanks ${name}! You're on the waitlist. Check your email for exclusive updates and early bird pricing.`);
+                    }, 1000);
+                    
+                    console.log('Lead successfully submitted to webhook:', webhookData);
+                } else {
+                    throw new Error('Webhook submission failed');
+                }
+                
+            } catch (error) {
+                console.error('Error submitting to webhook:', error);
+                
+                // Error state
+                button.innerHTML = '❌ Error - Try Again';
+                button.style.background = 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)';
+                
+                alert('There was an error submitting your information. Please try again or contact support.');
+                
+                // Reset button after error
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                    button.disabled = false;
+                }, 3000);
+                
+                return; // Exit early on error
+            }
             
-            // Show success message
-            setTimeout(() => {
-                alert(`Thanks ${name}! You're on the waitlist. Check your email for exclusive updates and early bird pricing.`);
-            }, 1000);
-            
-            // Reset form after 3 seconds
+            // Reset form after successful submission
             setTimeout(() => {
                 event.target.reset();
                 button.innerHTML = originalText;
                 button.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
                 button.disabled = false;
-            }, 3000);
+            }, 5000);
         }
         
         // Add smooth scrolling for better UX
