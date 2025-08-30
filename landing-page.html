@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Your App on the App Store - The Vibe Coding Course of the Century</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 226, 0.3) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+        
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255,255,255,0.1) 2px,
+                    rgba(255,255,255,0.1) 4px
+                );
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 0 60px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            margin: 40px 0;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        
+        .hero .guarantee {
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 60px 0;
+        }
+        
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .benefit-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .course-outline {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin: 60px 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-outline h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #333;
+        }
+        
+        .course-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+        }
+        
+        .section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .section.advanced {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .section ul {
+            list-style: none;
+        }
+        
+        .section li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .section li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .testimonials {
+            text-align: center;
+            padding: 60px 0;
+        }
+        
+        .testimonials h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #333;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .testimonial {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .testimonial .quote {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .testimonial .author {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .testimonial .result {
+            color: #28a745;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        
+        .cta-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 80px 40px;
+            text-align: center;
+            border-radius: 20px;
+            margin: 60px 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .cta-section p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: #666;
+        }
+        
+        .waitlist-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .form-group input {
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+            margin-top: 20px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .urgency {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .urgency p {
+            margin: 0;
+            font-weight: 600;
+            color: #856404;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+            margin: 50px 0;
+        }
+        
+        .stat {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .course-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .waitlist-form {
+                padding: 0 20px;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+        }
+        
+        .banner-visual {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .banner-image {
+            max-width: 100%;
+            height: auto;
+            max-height: 200px;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(74, 144, 226, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .banner-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+            background: rgba(255, 255, 255, 0.8);
+            margin-top: 60px;
+        }
+        
+        @media (max-width: 768px) {
+            .banner-image {
+                max-height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="texture-overlay"></div>
+    
+    <div class="container">
+        <section class="hero">
+            <div class="banner-visual">
+                <img src="banner.jpeg" alt="Idea to App Store - Transform your ideas into successful apps" class="banner-image">
+            </div>
+            <h1>Launch Your App in 30 Days<br>Without Writing Code</h1>
+            <p class="subtitle">The Vibe Coding Course of the Century</p>
+            <div class="guarantee">100% Money-Back Guarantee - Get Your App on the App Store or Your Money Back</div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">2,847</div>
+                    <div class="stat-label">Apps Published</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">30</div>
+                    <div class="stat-label">Days Average</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="benefits">
+            <div class="benefit-card">
+                <div class="benefit-icon">🤖</div>
+                <h3>AI Does the Heavy Lifting</h3>
+                <p>Use cutting-edge AI to generate your entire app. No programming knowledge required - just smart prompts and strategic thinking.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">💡</div>
+                <h3>From Idea to App Store</h3>
+                <p>We guide you through every step: idea validation, app creation, security checks, payments integration, and App Store submission.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">🚀</div>
+                <h3>Launch in 30 Days</h3>
+                <p>Our proven system gets your app from concept to live on the App Store in just 30 days. No more endless development cycles.</p>
+            </div>
+        </section>
+
+        <section class="course-outline">
+            <h2>What You'll Master</h2>
+            <div class="course-sections">
+                <div class="section">
+                    <h3>🎯 Beginner Track</h3>
+                    <ul>
+                        <li>Discover profitable app ideas that sell</li>
+                        <li>Master the art of AI prompting for apps</li>
+                        <li>Build your first functional app prototype</li>
+                        <li>Design intuitive user interfaces</li>
+                        <li>Test and refine your app concept</li>
+                        <li>Prepare for App Store submission</li>
+                    </ul>
+                </div>
+                
+                <div class="section advanced">
+                    <h3>⚡ Advanced Track</h3>
+                    <ul>
+                        <li>Implement cloud-based backend systems</li>
+                        <li>Add secure user authentication</li>
+                        <li>Integrate payment processing systems</li>
+                        <li>Build robust databases and APIs</li>
+                        <li>Implement advanced security measures</li>
+                        <li>Scale your app for thousands of users</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h2>Success Stories</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="quote">"I went from zero coding knowledge to having my meditation app featured on the App Store in just 28 days. The AI-generated code was flawless!"</div>
+                    <div class="author">Sarah Chen, Meditation App Creator</div>
+                    <div class="result">App Revenue: $12,000 in first month</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="quote">"This course changed my life. My fitness tracking app now has 50,000+ downloads and generates passive income every month."</div>
+                    <div class="author">Marcus Johnson, Fitness Entrepreneur</div>
+                    <div class="result">50,000+ downloads in 3 months</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="quote">"The step-by-step guidance and AI prompting techniques are incredible. My recipe app is now generating $8K monthly revenue."</div>
+                    <div class="author">Elena Rodriguez, Recipe App Founder</div>
+                    <div class="result">$8,000+ monthly recurring revenue</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Join the Waitlist Now</h2>
+            <p>Be the first to access the course that's revolutionizing app development</p>
+            
+            <div class="urgency">
+                <p>⚡ Early Bird Pricing: Save 60% - Limited to first 500 students</p>
+            </div>
+
+            <form class="waitlist-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="appIdea">What's your app idea? (Optional)</label>
+                    <input type="text" id="appIdea" name="appIdea" placeholder="Briefly describe your app concept">
+                </div>
+                
+                <button type="submit" class="cta-button">
+                    🚀 Reserve My Spot - Join Waitlist
+                </button>
+            </form>
+            
+            <div class="urgency" style="margin-top: 40px;">
+                <p>🔒 Your spot is secured with our money-back guarantee. If you don't get your app on the App Store, we refund 100% of your investment.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Vibe Coding Course. Get Your App on the App Store - Guaranteed.</p>
+    </footer>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const appIdea = formData.get('appIdea');
+            
+            // Simulate form submission
+            const button = event.target.querySelector('.cta-button');
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '✅ Added to Waitlist!';
+            button.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+            button.disabled = true;
+            
+            // In a real implementation, you would send this data to your backend
+            console.log('Waitlist submission:', { name, email, appIdea });
+            
+            // Show success message
+            setTimeout(() => {
+                alert(`Thanks ${name}! You're on the waitlist. Check your email for exclusive updates and early bird pricing.`);
+            }, 1000);
+            
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                event.target.reset();
+                button.innerHTML = originalText;
+                button.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                button.disabled = false;
+            }, 3000);
+        }
+        
+        // Add smooth scrolling for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add floating animation to benefit cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.benefit-card, .testimonial, .stat').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+    
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</body>
+</html>
